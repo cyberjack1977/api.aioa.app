@@ -1,5 +1,15 @@
 <?php
 
+// Basic CORS support
+header('Access-Control-Allow-Origin: https://aioa.app');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit();
+}
+
 spl_autoload_register(function ($class) {
     $class = str_replace('\\', '/', $class);
     $file = __DIR__ . '/../src/' . $class . '.php';
