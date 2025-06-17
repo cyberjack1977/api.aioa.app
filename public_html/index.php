@@ -4,11 +4,18 @@
 header('Access-Control-Allow-Origin: https://aioa.app');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(204);
     exit();
 }
+
+set_exception_handler(function (Throwable $e) {
+    error_log($e);
+    http_response_code(500);
+    echo json_encode(['error' => 'Server error']);
+});
 
 spl_autoload_register(function ($class) {
     $class = str_replace('\\', '/', $class);
